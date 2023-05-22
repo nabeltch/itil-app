@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $id
  * @property $name
  * @property $category
+ * @property $price
  * @property $created_at
  * @property $updated_at
  *
@@ -22,6 +23,7 @@ class Product extends Model
     static $rules = [
 		'name' => 'required',
 		'category' => 'required',
+		'price' => 'required',
     ];
 
     protected $perPage = 20;
@@ -31,7 +33,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','category'];
+    protected $fillable = ['name','category','price'];
 
 
 

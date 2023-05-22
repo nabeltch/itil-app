@@ -71,17 +71,15 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create()
+
     {
-        return User::create([
-            'name' => $data['name'],
-            'type' => $data['type'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $user = new User();
+        return view('admin.register',compact('user'));
+
     }
 
-    protected function register(Request $request,$type){
+    protected function register(Request $request){
         $v = Validator::make($request->all(),[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -94,14 +92,55 @@ class RegisterController extends Controller
 
         $create=User::create([
             'name' => $request['name'],
-            'type' => $type,
+            'type' => $request['type'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ]);
 
         Alert::success('AGREGADO', 'Se agregó correctamente.');
-        return redirect()->route('admin.users.index',$type);
+        return redirect()->route('admin.users.index',$request['type']);
 
+    }
+
+    public function edit($user,$id)
+    {
+        $user = User::find($id);
+
+        return view('admin.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        // request()->validate(User::$rules);
+        $v = Validator::make($request->all(),[
+            'name' => ['required', 'string', 'max:255'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
+        // $user->update($request->all());
+        $user->name = $request['name'];
+        $user->password = Hash::make($request['password']);
+        $user->update();
+
+        Alert::success('ACTUALIZADO', 'Se actualizó correctamente.');
+        return redirect()->route('admin.users.index',$request['type']);
+
+        // return redirect()->route('admin.users.index')
+        //     ->with('success', 'User updated successfully');
+
+    }
+
+    public function destroy($id,$type)
+    {
+        $user = User::find($id)->delete();
+
+        Alert::success('ELIMINADO', 'Se eliminó correctamente.');
+        return redirect()->route('admin.users.index',$type);
     }
 
    

@@ -53,7 +53,7 @@
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-drop')}}"></use>
           </svg> Tickets</a></li>
 
-      <li class="nav-item"><a class="nav-link" href="#">
+      <li class="nav-item"><a class="nav-link" href="/support/prod">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}"></use>
           </svg> Products</a></li>

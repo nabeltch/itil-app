@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('template_title')
     Product
@@ -38,6 +38,7 @@
                                         
 										<th>Name</th>
 										<th>Category</th>
+										<th>Price</th>
 
                                         <th></th>
                                     </tr>
@@ -49,6 +50,7 @@
                                             
 											<td>{{ $product->name }}</td>
 											<td>{{ $product->category }}</td>
+											<td>{{ $product->price }}</td>
 
                                             <td>
                                                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">

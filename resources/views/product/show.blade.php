@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('template_title')
     {{ $product->name ?? "{{ __('Show') Product" }}
@@ -27,6 +27,10 @@
                         <div class="form-group">
                             <strong>Category:</strong>
                             {{ $product->category }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Price:</strong>
+                            {{ $product->price }}
                         </div>
 
                     </div>

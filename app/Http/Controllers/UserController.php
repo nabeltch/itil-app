@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class UserController
@@ -16,12 +17,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type)
     {
-        $users = User::paginate();
+        // $users = User::paginate();
 
-        return view('user.index', compact('users'))
-            ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
+        // return view('user.index', compact('users'))
+        //     ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
+        
+            $users = User::where('type', $type)->get();
+
+            return view('admin.index', compact('users','type'));
     }
 
     /**
@@ -74,7 +79,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        return view('user.edit', compact('user'));
+        return view('admin.edit', compact('user'));
     }
 
     /**
@@ -99,11 +104,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy($id,$type)
     {
         $user = User::find($id)->delete();
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index',$type)
             ->with('success', 'User deleted successfully');
+    }
+
+    public function test(){
+        
+        return auth()->user()->type;
     }
 }

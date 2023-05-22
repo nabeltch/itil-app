@@ -23,6 +23,13 @@ class ProductController extends Controller
         return view('product.index', compact('products'))
             ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
+    
+    public function indexPublic()
+    {
+        $products = Product::all();
+
+        return view('product.index-public', compact('products'));
+    }
 
     /**
      * Show the form for creating a new resource.

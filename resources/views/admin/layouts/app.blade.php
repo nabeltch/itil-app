@@ -62,8 +62,20 @@
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}"></use>
           </svg> Admins</a></li>
+          <li class="nav-title">PRODUCTOS</li>
+          
+          <li class="nav-item"><a class="nav-link" href="/admin/prod">
+          <svg class="nav-icon">
+            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}"></use>
+          </svg> Listado</a></li>
 
-      <li class="nav-title">productos</li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('products.index') }}">
+          <svg class="nav-icon">
+            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}"></use>
+          </svg> Administrar</a></li>
+
+
+      
       <li class="nav-title">tickets</li>
 
     </ul>
