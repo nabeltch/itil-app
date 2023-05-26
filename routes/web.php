@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Purchase;
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PostsController;
 
 
@@ -111,6 +113,9 @@ Route::prefix('support')->middleware('auth')->group(function () {
 Route::get('admin/prod', [App\Http\Controllers\ProductController::class, 'indexPublic']);
 Route::get('client/prod', [App\Http\Controllers\ProductController::class, 'indexPublic']);
 Route::get('support/prod', [App\Http\Controllers\ProductController::class, 'indexPublic']);
+
+
+Route::resource('purchases', PurchaseController::class);
 
 
 
