@@ -1,7 +1,7 @@
-@extends('client.layouts.app')
+@extends('layouts.app')
 
 @section('template_title')
-    Purchase
+    Ticket
 @endsection
 
 @section('content')
@@ -13,11 +13,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Purchase') }}
+                                {{ __('Ticket') }}
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('purchases.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                <a href="{{ route('tickets.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
                               </div>
@@ -35,36 +35,28 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
-										<th>Id User</th>
-										<th>Id Product</th>
-										<th>Quantity</th>
-										<th>Price</th>
-										<th>Total</th>
+                                        <th>Fecha</th>
+										<th>Cliente</th>
+										<th>Compra</th>
+										<th>Reclamo</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($purchases as $purchase)
+                                    @foreach ($tickets as $ticket)
                                         <tr>
                                             <td>{{ ++$i }}</td>
+                                            <td>{{ $ticket->created_at }}</td>
+											<td>{{ $ticket->client->name }}</td>
+											<td>{{ $ticket->id_purchase }}</td>
+											<td>{{ $ticket->client_problem }}</td>
                                             
-											<td>{{ $purchase->user->name }}</td>
-											<td>{{ $purchase->product->name }}</td>
-											<td>{{ $purchase->Quantity }}</td>
-											<td>{{ $purchase->price }}</td>
-											<td>{{ $purchase->total }}</td>
 
                                             <td>
-                                                <form action="{{ route('purchases.destroy',$purchase->id) }}" method="POST">
-                                                <a class="btn btn-sm btn-primary " href="{{ route('tickets.generate',1) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Generar ticket') }}</a>
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('purchases.show',$purchase->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('purchases.edit',$purchase->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
-                                                </form>
+                                                
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('tickets.show',$ticket->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    
                                             </td>
                                         </tr>
                                     @endforeach
@@ -73,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $purchases->links() !!}
+                {!! $tickets->links() !!}
             </div>
         </div>
     </div>

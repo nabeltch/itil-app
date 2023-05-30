@@ -8,6 +8,7 @@ use App\Models\Purchase;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\PostsController;
 
 
@@ -116,6 +117,11 @@ Route::get('support/prod', [App\Http\Controllers\ProductController::class, 'inde
 
 
 Route::resource('purchases', PurchaseController::class);
+Route::resource('tickets', TicketController::class);
+
+
+Route::get('tickets/create/{purchase}', [App\Http\Controllers\ticketController::class, 'create'])->name('tickets.generate');
+Route::post('tickets/support/{id}', [App\Http\Controllers\ticketController::class, 'add_support'])->name('tickets.add_support');
 
 
 
