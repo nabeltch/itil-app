@@ -101,10 +101,14 @@ class TicketController extends Controller
     {
         // request()->validate(Ticket::$rules);
         $current_date_time = \Carbon\Carbon::now()->toDateTimeString();
-        $support = Ticket::find($id);
+        $support = Ticket::find($request->input('id_ticket'));
+        $support->state = $request->input('select');
+        $support->actions_taken = $request->input('actions');
+        $support->results = $request->input('results');
         $support->id_support = $request->input('id_support');
         $support->start_time_support = $current_date_time;
-        $support->state = $request->input('select');
+        $support->end_time_support = $current_date_time;
+       
 
         $support->update();
         // return redirect()->back()->with('status','Student Updated Successfully');

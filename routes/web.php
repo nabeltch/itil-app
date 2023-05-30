@@ -123,6 +123,12 @@ Route::resource('tickets', TicketController::class);
 Route::get('tickets/create/{purchase}', [App\Http\Controllers\ticketController::class, 'create'])->name('tickets.generate');
 Route::post('tickets/support/{id}', [App\Http\Controllers\ticketController::class, 'add_support'])->name('tickets.add_support');
 
+Route::get('tickets/support/commit/{id}/{state}',function(){
+    return view('ticket.support');
+})->name('tickets.support_commit');
+
+
+
 
 
 
