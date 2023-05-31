@@ -77,6 +77,10 @@
 
       
       <li class="nav-title">tickets</li>
+      <li class="nav-item"><a class="nav-link" href="{{ route('admin.tickets') }}">
+          <svg class="nav-icon">
+            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}"></use>
+          </svg> Listado</a></li>
 
     </ul>
     <!-- <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button> -->
@@ -93,11 +97,7 @@
           <svg width="118" height="46" alt="CoreUI Logo">
             <use xlink:href="{{ asset('assets/brand/coreui.svg#full')}}"></use>
           </svg></a>
-        <ul class="header-nav d-none d-md-flex">
-          <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
-        </ul>
+
         <ul class="header-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#">
               <svg class="icon icon-lg">

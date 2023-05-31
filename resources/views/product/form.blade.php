@@ -1,24 +1,38 @@
-<div class="box box-info padding-1">
+@php
+$type=explode("/",Request::path());
+@endphp
+
+
+@extends($type[0].'.layouts.app')
+@section('template_title')
+Product
+@endsection
+
+@section('content')
+<div class="card p-3">
+
     <div class="box-body">
-        
-        <div class="form-group">
-            {{ Form::label('name') }}
-            {{ Form::text('name', $product->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Name']) }}
+
+        <div class="form-group my-2">
+            {{ Form::label('Nombre') }}
+            {{ Form::text('name', $product->name, ['class' => 'form-control my-2' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Nombre']) }}
             {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
-            {{ Form::label('category') }}
-            {{ Form::text('category', $product->category, ['class' => 'form-control' . ($errors->has('category') ? ' is-invalid' : ''), 'placeholder' => 'Category']) }}
+        <div class="form-group my-2">
+            {{ Form::label('Categoria') }}
+            {{ Form::text('category', $product->category, ['class' => 'form-control my-2' . ($errors->has('category') ? ' is-invalid' : ''), 'placeholder' => 'Categoria']) }}
             {!! $errors->first('category', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
-            {{ Form::label('price') }}
-            {{ Form::text('price', $product->price, ['class' => 'form-control' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Price']) }}
+        <div class="form-group my-2">
+            {{ Form::label('Precio') }}
+            {{ Form::text('price', $product->price, ['class' => 'form-control my-2' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Pricio']) }}
             {!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
         </div>
 
     </div>
-    <div class="box-footer mt-3">
-        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+    <div class="box-footer">
+        <button type="submit" class="btn btn-primary">{{ __('Agregar') }}</button>
     </div>
 </div>
+
+@endsection

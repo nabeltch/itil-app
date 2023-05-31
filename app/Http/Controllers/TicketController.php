@@ -49,8 +49,8 @@ class TicketController extends Controller
 
         $ticket = Ticket::create($request->all());
 
-        return redirect()->route('tickets.index')
-            ->with('success', 'Ticket created successfully.');
+        return redirect()->route('client.tickets')
+            ->with('success', 'Se creó exitosamente');
     }
 
     /**
@@ -96,7 +96,7 @@ class TicketController extends Controller
             ->with('success', 'Ticket updated successfully');
     }
 
-    public function add_support(Request $request, Ticket $ticket,$id)
+    public function add_support(Request $request, Ticket $ticket)
 
     {
         // request()->validate(Ticket::$rules);
@@ -107,7 +107,10 @@ class TicketController extends Controller
         $support->results = $request->input('results');
         $support->id_support = $request->input('id_support');
         $support->start_time_support = $current_date_time;
-        $support->end_time_support = $current_date_time;
+        if ($request->input('select')==2){
+            $support->end_time_support = $current_date_time;
+        }
+        
        
 
         $support->update();
@@ -115,8 +118,8 @@ class TicketController extends Controller
 
         // $ticket->update($request->all());
 
-        return redirect()->route('tickets.index')
-            ->with('success', 'Ticket updated successfully');
+        return redirect()->route('support.tickets.show',$request->input('id_ticket'))
+            ->with('success', 'Se cambió de estado exitosamente');
     }
 
     /**
@@ -129,6 +132,6 @@ class TicketController extends Controller
         $ticket = Ticket::find($id)->delete();
 
         return redirect()->route('tickets.index')
-            ->with('success', 'Ticket deleted successfully');
+            ->with('success', 'Se eliminó exitosamente');
     }
 }

@@ -90,6 +90,8 @@ Route::get('cliente/products', [App\Http\Controllers\ProductController::class, '
 Route::prefix('client')->middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::get('products', [App\Http\Controllers\ProductController::class, 'indexPublic'])->name('products.public');
+    Route::get('tickets', [App\Http\Controllers\TicketController::class, 'index'])->name('client.tickets');
+    Route::get('tickets/{id}', [App\Http\Controllers\TicketController::class, 'show'])->name('client.tickets.show');
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
@@ -103,12 +105,20 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('users/{user}', [App\Http\Controllers\Admin\RegisterController::class, 'update'])->name('admin.users.update');
     Route::delete('users/{id}/{type}/', [App\Http\Controllers\Admin\RegisterController::class, 'destroy'])->name('admin.users.destroy');
     Route::resource('products', ProductController::class);
+    Route::get('tickets', [App\Http\Controllers\TicketController::class, 'index'])->name('admin.tickets');
+    Route::get('tickets/{id}', [App\Http\Controllers\TicketController::class, 'show'])->name('admin.tickets.show');
 
 });
 
 Route::prefix('support')->middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::get('products', [App\Http\Controllers\ProductController::class, 'indexPublic'])->name('products.public');
+    Route::get('tickets', [App\Http\Controllers\TicketController::class, 'index'])->name('support.tickets');
+    Route::get('tickets/{id}', [App\Http\Controllers\TicketController::class, 'show'])->name('support.tickets.show');
+    Route::get('tickets/commit/{id}/{state}', function(){
+        return view('ticket.support');
+    })->name('support.ticket.commit');
+    Route::post('tickets/support', [App\Http\Controllers\TicketController::class, 'add_support'])->name('support.add_support');
 });
 
 Route::get('admin/prod', [App\Http\Controllers\ProductController::class, 'indexPublic']);
@@ -121,7 +131,7 @@ Route::resource('tickets', TicketController::class);
 
 
 Route::get('tickets/create/{purchase}', [App\Http\Controllers\ticketController::class, 'create'])->name('tickets.generate');
-Route::post('tickets/support/{id}', [App\Http\Controllers\ticketController::class, 'add_support'])->name('tickets.add_support');
+Route::post('tickets/support/', [App\Http\Controllers\ticketController::class, 'add_support'])->name('tickets.add_support');
 
 Route::get('tickets/support/commit/{id}/{state}',function(){
     return view('ticket.support');

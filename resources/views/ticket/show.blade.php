@@ -1,8 +1,9 @@
-@extends('client.layouts.app')
+@php
+$type=explode("/",Request::path());
+@endphp
+@extends($type[0].'.layouts.app')
 
-@section('template_title')
-{{ $ticket->name ?? "{{ __('Show') Ticket" }}
-@endsection
+
 
 @section('content')
 <section class="content container-fluid">
@@ -67,7 +68,7 @@
       @if($ticket->state==0)
         --
         @else
-        {{ $ticket->support->type }}
+        {{ $ticket->support->name }}
         @endif
       
  
@@ -97,8 +98,10 @@
       <p class="card-text">
         @if($ticket->state==0)
         --
+        @elseif($ticket->end_time_support=="")
+        --
         @else
-        {{ $ticket->start_time_support }}
+        {{ $ticket->end_time_support }}
         @endif
         
       
@@ -114,7 +117,7 @@
         @if($ticket->state==0)
         --
         @else
-        {{ $ticket->start_time_support }}
+        {{ $ticket->actions_taken }}
         @endif
         
       
@@ -130,7 +133,7 @@
         @if($ticket->state==0)
         --
         @else
-        {{ $ticket->start_time_support }}
+        {{ $ticket->results }}
         @endif
         
       
@@ -144,7 +147,7 @@
       <h5 class="card-title">Estado</h5>
       <p class="card-text">
       @php
-$data=['publicado','pendiente','cancelado','solucionado'];
+$data=['publicado','pendiente','solucionado'];
 @endphp
 
       {{$data[$ticket->state]}}
@@ -152,7 +155,7 @@ $data=['publicado','pendiente','cancelado','solucionado'];
       </p>
       @if (auth()->user()->type==='client')
                         @else
-                        <a class="btn btn-primary" href="{{ route('tickets.support_commit',[$ticket->id,$ticket->state])}}">Cambiar Estado</a>
+                        <a class="btn btn-primary" href="{{ route('support.ticket.commit',[$ticket->id,$ticket->state])}}">Cambiar Estado</a>
                         @endif
     </div>
   </div>

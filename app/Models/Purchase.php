@@ -25,9 +25,8 @@ class Purchase extends Model
 {
     
     static $rules = [
-		'Quantity' => 'required',
-		'price' => 'required',
-		'total' => 'required',
+  
+		'quantity' => 'required',
     ];
 
     protected $perPage = 20;
@@ -37,7 +36,7 @@ class Purchase extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_user','id_product','Quantity','price','total'];
+    protected $fillable = ['id_user','id_product','quantity','price','total'];
 
 
     /**

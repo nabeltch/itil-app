@@ -24,5 +24,17 @@ class DatabaseSeeder extends Seeder
             'type'=>'admin',
             'password' => bcrypt('12345678'),
         ]);
+        \App\Models\User::create([
+            'name' => 'cliente',
+            'email' => 'cliente@gmail.com',
+            'type'=>'client',
+            'password' => bcrypt('12345678'),
+        ]);
+        \App\Models\User::create([
+            'name' => 'soporte',
+            'email' => 'soporte@gmail.com',
+            'type'=>'support',
+            'password' => bcrypt('12345678'),
+        ]);
     }
 }

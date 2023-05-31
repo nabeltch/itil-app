@@ -45,10 +45,20 @@ class PurchaseController extends Controller
     {
         request()->validate(Purchase::$rules);
 
-        $purchase = Purchase::create($request->all());
+    
+       
+        $purchase=Purchase::create([
+            'id_user' => $request['id_user'],
+            'id_product' => $request['id_product'],
+            'quantity' => $request['quantity'],
+            'price' => $request['price'],
+            'total' => $request['quantity'] * $request['price']
+ 
+        ]);
+// return $purchase;
 
         return redirect()->route('purchases.index')
-            ->with('success', 'Purchase created successfully.');
+            ->with('success', 'Se realizó la compra exitosamente.');
     }
 
     /**
@@ -104,6 +114,6 @@ class PurchaseController extends Controller
         $purchase = Purchase::find($id)->delete();
 
         return redirect()->route('purchases.index')
-            ->with('success', 'Purchase deleted successfully');
+            ->with('success', 'se eliminó exitosamente');
     }
 }

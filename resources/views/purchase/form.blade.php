@@ -12,9 +12,9 @@
             {!! $errors->first('id_product', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('Quantity') }}
-            {{ Form::text('Quantity', $purchase->Quantity, ['class' => 'form-control' . ($errors->has('Quantity') ? ' is-invalid' : ''), 'placeholder' => 'Quantity']) }}
-            {!! $errors->first('Quantity', '<div class="invalid-feedback">:message</div>') !!}
+            {{ Form::label('quantity') }}
+            {{ Form::text('quantity', $purchase->quantity, ['class' => 'form-control' . ($errors->has('quantity') ? ' is-invalid' : ''), 'placeholder' => 'Quantity']) }}
+            {!! $errors->first('quantity', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('price') }}
@@ -29,6 +29,6 @@
 
     </div>
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+        <button type="submit" class="btn btn-primary">{{ __('Comprar') }}</button>
     </div>
 </div>

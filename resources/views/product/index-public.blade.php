@@ -29,9 +29,8 @@ Product
             @csrf
               <input type="hidden" name="id_user" value="{{auth()->user()->id}}">
               <input type="hidden" name="id_product" value="{{$product->id}}">
-              <input type="number" class="col-lg-4" name="Quantity" min="1" pattern="^[0-9]+" value="1" style="border-radius: 5px; border:1px solid #666;">
               <input type="hidden" name="price" value="{{$product->price}}">
-              <input type="hidden" name="total" value="1000">
+              <input type="number" class="col-lg-4" name="quantity" min="1" pattern="^[0-9]+" value="1" style="border-radius: 5px; border:1px solid #666;">
               <button type="submit" class="btn col-lg-7 btn-primary">Comprar</button>
             </div>
             </form>

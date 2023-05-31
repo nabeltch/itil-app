@@ -6,7 +6,7 @@
 $type=explode("/",Request::path());
 
 @endphp
-<p>ruta:{{$type[0]}}</p>
+
 
 
 
