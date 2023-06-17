@@ -45,8 +45,8 @@
 											<td>{{ $purchase->user->name }}</td>
 											<td>{{ $purchase->product->name }}</td>
 											<td>{{ $purchase->quantity }}</td>
-											<td>{{ $purchase->price }}</td>
-											<td>{{ $purchase->total }}</td>
+											<td>${{ $purchase->price }}</td>
+											<td>${{ $purchase->total }}</td>
 
                                             <td>
                                                 <form action="{{ route('purchases.destroy',$purchase->id) }}" method="POST">

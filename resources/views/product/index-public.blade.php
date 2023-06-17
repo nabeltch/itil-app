@@ -16,7 +16,7 @@ Product
         <div class="col-lg-3">
         <div class="card" style="border-radius: 5px;">
           <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/12.webp" style="border-top-left-radius: 15px; border-top-right-radius: 15px;" class="img-fluid" alt="Laptop" />
+            <img src="{{$product->image}}" style="border-top-left-radius: 15px; border-top-right-radius: 15px;" class="img-fluid" alt="image" />
           </div>
           <div class="card-body">
                 <p class="text-dark">{{ $product->name}}</p>

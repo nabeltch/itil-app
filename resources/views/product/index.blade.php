@@ -50,7 +50,7 @@
                                             
 											<td>{{ $product->name }}</td>
 											<td>{{ $product->category }}</td>
-											<td>{{ $product->price }}</td>
+											<td>${{ $product->price }}</td>
 
                                             <td>
                                                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">

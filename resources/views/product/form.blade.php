@@ -18,6 +18,11 @@
             {{ Form::text('price', $product->price, ['class' => 'form-control my-2' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Precio']) }}
             {!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
         </div>
+        <div class="form-group my-2">
+            {{ Form::label('Imagen') }}
+            {{ Form::text('image', $product->image, ['class' => 'form-control my-2' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'URL de la imagen']) }}
+            {!! $errors->first('image', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
 
     </div>
     <div class="box-footer">
