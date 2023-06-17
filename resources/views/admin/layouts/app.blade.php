@@ -32,7 +32,7 @@
 <body>
   <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex">
-      <h3>ITIL APP</h3>
+      <h3>OPTICTIMES</h3>
       <!-- <svg class="sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
         <use xlink:href="../assets/brand/coreui.svg#full"></use>
       </svg>

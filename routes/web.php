@@ -84,7 +84,7 @@ Route::get('tests',function(){
 return $user->id;
 });
 
-Route::get('cliente/products', [App\Http\Controllers\ProductController::class, 'indexPublic']);
+
 
 
 Route::prefix('client')->middleware('auth')->group(function () {
@@ -111,7 +111,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 });
 
 Route::prefix('support')->middleware('auth')->group(function () {
-    Route::resource('products', ProductController::class);
     Route::get('products', [App\Http\Controllers\ProductController::class, 'indexPublic'])->name('products.public');
     Route::get('tickets', [App\Http\Controllers\TicketController::class, 'index'])->name('support.tickets');
     Route::get('tickets/{id}', [App\Http\Controllers\TicketController::class, 'show'])->name('support.tickets.show');

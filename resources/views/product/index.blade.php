@@ -37,8 +37,8 @@
                                         <th>No</th>
                                         
 										<th>Nombre</th>
-										<th>Categoria</th>
-										<th>Pricio</th>
+										<th>Categoría</th>
+										<th>Precio</th>
 
                                         <th></th>
                                     </tr>
@@ -46,7 +46,7 @@
                                 <tbody>
                                     @foreach ($products as $product)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
+                                            <td>{{ $product->id }}</td>
                                             
 											<td>{{ $product->name }}</td>
 											<td>{{ $product->category }}</td>
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $products->links() !!}
+
             </div>
         </div>
     </div>

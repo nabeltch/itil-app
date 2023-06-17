@@ -1,14 +1,4 @@
-@php
-$type=explode("/",Request::path());
-@endphp
 
-
-@extends($type[0].'.layouts.app')
-@section('template_title')
-Product
-@endsection
-
-@section('content')
 <div class="card p-3">
 
     <div class="box-body">
@@ -25,7 +15,7 @@ Product
         </div>
         <div class="form-group my-2">
             {{ Form::label('Precio') }}
-            {{ Form::text('price', $product->price, ['class' => 'form-control my-2' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Pricio']) }}
+            {{ Form::text('price', $product->price, ['class' => 'form-control my-2' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Precio']) }}
             {!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
         </div>
 
@@ -35,4 +25,3 @@ Product
     </div>
 </div>
 
-@endsection

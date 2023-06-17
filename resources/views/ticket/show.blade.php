@@ -19,7 +19,7 @@ $type=explode("/",Request::path());
     <!-- <div class="row  flex-row text-center"> -->
   <div class="card rounded-0 col-lg-2">
     <div class="card-body">
-      <h5 class="card-title">Codigo</h5>
+      <h5 class="card-title">Código</h5>
       <p class="card-text">
       {{ $ticket->id }}
       </p>
@@ -45,16 +45,16 @@ $type=explode("/",Request::path());
 
   <div class="card rounded-0 col-lg-2">
     <div class="card-body">
-      <h5 class="card-title">Cod. de compra</h5>
+      <h5 class="card-title">Producto adquirido</h5>
       <p class="card-text">
-      {{ $ticket->id_purchase }}
+      {{ $product_name }}
       </p>
     </div>
   </div>
 
   <div class="card rounded-0 col-lg-3">
     <div class="card-body">
-      <h5 class="card-title">Reclamo del cliente</h5>
+      <h5 class="card-title">Descripción del problema</h5>
       <p class="card-text">
       {{ $ticket->client_problem }}
       </p>
@@ -63,7 +63,7 @@ $type=explode("/",Request::path());
 
   <div class="card rounded-0 col-lg-2">
     <div class="card-body">
-      <h5 class="card-title">Soporte</h5>
+      <h5 class="card-title">Ingeniero de Soporte TI</h5>
       <p class="card-text">
       @if($ticket->state==0)
         --
@@ -147,7 +147,7 @@ $type=explode("/",Request::path());
       <h5 class="card-title">Estado</h5>
       <p class="card-text">
       @php
-$data=['publicado','pendiente','solucionado'];
+$data=['Publicado','Cancelado','En Proceso','Pendiente','Solucionado'];
 @endphp
 
       {{$data[$ticket->state]}}

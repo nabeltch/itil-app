@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Product;
+use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -21,6 +23,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::paginate();
+
 
         return view('ticket.index', compact('tickets'))
             ->with('i', (request()->input('page', 1) - 1) * $tickets->perPage());
@@ -62,8 +65,10 @@ class TicketController extends Controller
     public function show($id)
     {
         $ticket = Ticket::find($id);
+          $product_name=Purchase::find($ticket->id_purchase)->product->name;
+        //$product_name=Product::find($ticket->id_product)->name;
 
-        return view('ticket.show', compact('ticket'));
+        return view('ticket.show', compact(['ticket','product_name']));
     }
 
     /**
@@ -107,7 +112,7 @@ class TicketController extends Controller
         $support->results = $request->input('results');
         $support->id_support = $request->input('id_support');
         $support->start_time_support = $current_date_time;
-        if ($request->input('select')==2){
+        if ($request->input('select')==4){
             $support->end_time_support = $current_date_time;
         }
         
@@ -131,7 +136,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id)->delete();
 
-        return redirect()->route('tickets.index')
+        return redirect()->route('client.tickets')
             ->with('success', 'Se eliminó exitosamente');
     }
 }

@@ -42,7 +42,7 @@ Ticket
                             </thead>
                             <tbody>
                                 @php
-                                $data=['publicado','pendiente','solucionado'];
+                                $data=['Publicado','Cancelado','En Proceso','Pendiente','Solucionado'];
                                 @endphp
                                 @foreach ($tickets as $ticket)
                                 <tr>
@@ -55,7 +55,14 @@ Ticket
 
                                     <td>
 
+                                                <form action="{{ route('tickets.destroy',$ticket->id) }}" method="POST">
+
                                         <a class="btn btn-sm btn-primary " href="{{ route($type[0].'.tickets.show',$ticket->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Ver mas') }}</a>
+                                              
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                                </form>
 
                                     </td>
                                 </tr>

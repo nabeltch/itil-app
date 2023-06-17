@@ -55,8 +55,10 @@ $data=explode("/",Request::path());
         <div class="col-md-6">
             <select class="form-select" name="select" aria-label="Default select example">
                 <option value="0">Publicado</option>
-                <option value="1">pendiente</option>
-                <option value="2">solucionado</option>
+                <option value="1">Cancelado</option>
+                <option value="2">En Proceso</option>
+                <option value="3">Pendiente</option>
+                <option value="4">Solucionado</option>
 
             </select>
 
