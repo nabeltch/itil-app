@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 /**
  * Class UserController
  * @package App\Http\Controllers
@@ -115,5 +118,12 @@ class UserController extends Controller
     public function test(){
         
         return auth()->user()->type;
+    }
+
+
+    public function export(){
+        $date=date("Y-m-d");
+        $file_name="tickets-report-$date.xlsx";
+        return Excel::download(new UsersExport, $file_name);
     }
 }

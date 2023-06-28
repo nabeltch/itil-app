@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Ticket
  *
  * @property $id
+ * @property $code
  * @property $id_client
  * @property $id_support
  * @property $id_purchase
@@ -36,7 +37,7 @@ class Ticket extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_client','id_support','id_purchase','client_problem','state'];
+    protected $fillable = ['code','id_client','id_support','id_purchase','client_problem','state'];
 
 
     /**
@@ -62,6 +63,7 @@ class Ticket extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'id_support');
     }
+    
     
 
 }

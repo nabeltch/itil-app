@@ -1,10 +1,7 @@
 @php
-$type=explode("/",Request::path());
+$user=auth()->user()->type
 @endphp
-@extends($type[0].'.layouts.app')
-@section('template_title')
-Ticket
-@endsection
+@extends($user.'.layouts.app')
 
 @section('content')
 <div class="container-fluid">
@@ -18,6 +15,12 @@ Ticket
                             {{ __('Listado Tickets') }}
                         </span>
 
+                        <div class="float-right">
+                            <a href="{{ route('tickets_export') }}" class="btn btn-success btn-sm float-right" data-placement="left">
+                                {{ __('Exportar Excel') }}
+                            </a>
+                        </div>
+
                     </div>
                 </div>
                 @if ($message = Session::get('success'))
@@ -26,53 +29,60 @@ Ticket
                 </div>
                 @endif
 
-                <div class="card-body">
+                <div class="card-body text-center">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead class="thead">
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
+                                    <th>Código</th>
                                     <th>Fecha</th>
                                     <th>Cliente</th>
-                                    <th>Compra</th>
+                                    <th>Id_Compra</th>
                                     <th>Estado</th>
-
-                                    <th></th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
-                                $data=['Publicado','Cancelado','En Proceso','Pendiente','Solucionado'];
+                                $data=['Publicado','Cancelado','En Proceso','Solucionado'];
+                                $style=['text-warning','text-danger','text-primary','text-success'];
                                 @endphp
-                                @foreach ($tickets as $ticket)
+                                @foreach ($tickets as $key => $ticket)
                                 <tr>
-                                    <td>{{ ++$i }}</td>
+                                <td>{{ $key+1 }}</td>
+                                    <td>{{ $ticket->code }}</td>
                                     <td>{{ $ticket->created_at }}</td>
                                     <td>{{ $ticket->client->name }}</td>
-                                    <td>{{ $ticket->id_purchase }}</td>
-                                    <td>{{ $data[$ticket->state] }}</td>
+                                    <td>{{ $ticket->purchase->code }}</td>
+                                    <td><strong class="{{$style[$ticket->state-1]}}">{{ $data[$ticket->state-1] }}</strong></td>
 
 
                                     <td>
 
-                                                <form action="{{ route('tickets.destroy',$ticket->id) }}" method="POST">
+                                        <form action="{{ route('tickets.destroy',$ticket->id) }}" method="POST">
 
-                                        <a class="btn btn-sm btn-primary " href="{{ route($type[0].'.tickets.show',$ticket->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Ver mas') }}</a>
-                                              
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
-                                                </form>
+                                            <a class="btn btn-sm btn-primary " href="{{ route($user.'.tickets.show',$ticket->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Ver mas') }}</a>
+
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                        </form>
 
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+
+
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        {!! $tickets->links() !!}
                     </div>
                 </div>
             </div>
-            {!! $tickets->links() !!}
+
         </div>
     </div>
 </div>

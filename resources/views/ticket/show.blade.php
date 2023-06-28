@@ -21,13 +21,13 @@ $type=explode("/",Request::path());
     <div class="card-body">
       <h5 class="card-title">Código</h5>
       <p class="card-text">
-      {{ $ticket->id }}
+      {{ $ticket->code }}
       </p>
     </div>
   </div>
   <div class="card rounded-0 col-lg-3">
     <div class="card-body">
-      <h5 class="card-title">Fecha de creaciòn</h5>
+      <h5 class="card-title">Fecha de creación</h5>
       <p class="card-text">
       {{ $ticket->created_at }}
       </p>
@@ -65,7 +65,7 @@ $type=explode("/",Request::path());
     <div class="card-body">
       <h5 class="card-title">Ingeniero de Soporte TI</h5>
       <p class="card-text">
-      @if($ticket->state==0)
+      @if($ticket->state==1)
         --
         @else
         {{ $ticket->support->name }}
@@ -80,7 +80,7 @@ $type=explode("/",Request::path());
     <div class="card-body">
       <h5 class="card-title">Fecha inicial de soporte</h5>
       <p class="card-text">
-        @if($ticket->state==0)
+        @if($ticket->state==1)
         --
         @else
         {{ $ticket->start_time_support }}
@@ -96,7 +96,7 @@ $type=explode("/",Request::path());
     <div class="card-body">
       <h5 class="card-title">Fecha final de soporte</h5>
       <p class="card-text">
-        @if($ticket->state==0)
+        @if($ticket->state==1)
         --
         @elseif($ticket->end_time_support=="")
         --
@@ -114,7 +114,7 @@ $type=explode("/",Request::path());
     <div class="card-body">
       <h5 class="card-title">Acciones realizadas</h5>
       <p class="card-text">
-        @if($ticket->state==0)
+        @if($ticket->state==1)
         --
         @else
         {{ $ticket->actions_taken }}
@@ -130,7 +130,7 @@ $type=explode("/",Request::path());
     <div class="card-body">
       <h5 class="card-title">Resultados</h5>
       <p class="card-text">
-        @if($ticket->state==0)
+        @if($ticket->state==1)
         --
         @else
         {{ $ticket->results }}
@@ -141,16 +141,18 @@ $type=explode("/",Request::path());
       </p>
     </div>
   </div>
-
+  @php
+      
+      $data=['Publicado','Cancelado','En Proceso','Solucionado'];
+      $style=['bg-warning ','bg-danger','bg-primary','bg-success'];
+      @endphp
   <div class="card rounded-0 col-lg-3">
     <div class="card-body">
       <h5 class="card-title">Estado</h5>
-      <p class="card-text">
-      @php
-$data=['Publicado','Cancelado','En Proceso','Pendiente','Solucionado'];
-@endphp
+      <p class="card-text text-white {{$style[$ticket->state-1]}}">
 
-      {{$data[$ticket->state]}}
+
+      {{$data[$ticket->state-1]}}
  
       </p>
       @if (auth()->user()->type==='client')

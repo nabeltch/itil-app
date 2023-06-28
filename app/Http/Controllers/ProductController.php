@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::orderBy('created_at', 'desc')->paginate(5);
 
         return view('product.index', compact('products'));
           //  ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
@@ -26,7 +26,7 @@ class ProductController extends Controller
     
     public function indexPublic()
     {
-        $products = Product::all();
+        $products = Product::orderBy('created_at', 'desc')->paginate(5);
 
         return view('product.index-public', compact('products'));
     }
@@ -52,7 +52,14 @@ class ProductController extends Controller
     {
         request()->validate(Product::$rules);
 
-        $product = Product::create($request->all());
+        $product = Product::create([
+            'code' => 'P000'.Product::select("id")->latest()->first()->id+1,
+            'name' => $request['name'],
+            'category' => $request['category'],
+            'price' => $request['price'],
+            'image' => $request['image'],
+
+        ]);
 
         return redirect()->route('products.index')
             ->with('success', 'Se registró correctamente.');

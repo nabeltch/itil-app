@@ -15,7 +15,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                Lista de {{__('login.'.$type) }}s
+                                @php
+                                $users_type1=['admin'=>'administradores','client'=>'clientes','support'=>'soportes'];
+                                $users_type2=['admin'=>'Administrador','client'=>'Cliente','support'=>'Soporte'];
+                                @endphp
+                                Lista de {{__($users_type1[$type]) }}
                             </span>
 
                              <div class="float-right">
@@ -31,13 +35,13 @@
                         </div>
                     @endif
 
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+                                        <th>Código</th>
 										<th>Nombre</th>
 										<th>Email</th>
                                         <th>Tipo</th>
@@ -45,12 +49,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $i=>$user)
+                                    @foreach ($users as $key=>$user)
                                         <tr>
-                                            <td>{{++$i}}</td>
+                                            <td>{{$key+1}}</td>
+                                            <td>{{$user->code}}</td>
 											<td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-											<td>{{ $user->type }}</td>
+											<td>{{ $users_type2[$user->type] }}</td>
 
                                             <td>
                                                 
@@ -67,6 +72,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="d-flex justify-content-center">
+                        {!! $users->links() !!}
+                    </div>
                     </div>
                 </div>
             </div>

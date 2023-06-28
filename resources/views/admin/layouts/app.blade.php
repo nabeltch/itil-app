@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="{{ asset('css/vendors/simplebar.css')}}">
   <!-- Main styles for this application-->
   <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+  <link href="{{ asset('css/home.css')}}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <!-- We use those styles to show code examples, you should remove them in your application.-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
   <link href="../css/examples.css" rel="stylesheet">
@@ -116,18 +118,15 @@
           <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
               <div class="avatar avatar-md"><img class="avatar-img" src="{{ asset('assets/img/avatars/2.jpg')}}" alt="user@email.com"></div>
             </a>
-            <div class="dropdown-menu dropdown-menu-end pt-0">
+            <div class="dropdown-menu dropdown-menu-end pt-0 text-center">
               <div class="dropdown-header bg-light py-2">
-                <div class="fw-semibold">Account</div>
-              </div><a class="dropdown-item" href="#">
-                <svg class="icon me-2">
+                <div class="fw-semibold"><svg class="icon me-2">
                   <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user')}}"></use>
-                </svg> Perfil</a><a class="dropdown-item" href="#">
-                <svg class="icon me-2">
-                  <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-settings')}}"></use>
-                </svg> Configuración</a>
+                </svg>Usuario activo</div>
+                <strong class="fw-semibold">{{auth()->user()->name}}</strong>
+              </div>
 
-                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider m-0"></div>
               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                 <svg class="icon me-2">

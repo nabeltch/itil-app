@@ -18,10 +18,14 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::paginate();
+        if (auth()->user()->type=="client"){
+            $purchases = Purchase::where('id_user',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(5);
+        }else{
+            $purchases = Purchase::orderBy('created_at', 'desc')->paginate(5);
+        }
+        
 
-        return view('purchase.index', compact('purchases'))
-            ->with('i', (request()->input('page', 1) - 1) * $purchases->perPage());
+        return view('purchase.index', compact('purchases'));
     }
 
     /**
@@ -44,10 +48,8 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         request()->validate(Purchase::$rules);
-
-    
-       
         $purchase=Purchase::create([
+            'code' => 'C000'.Purchase::select("id")->latest()->first()->id+1,
             'id_user' => $request['id_user'],
             'id_product' => $request['id_product'],
             'quantity' => $request['quantity'],

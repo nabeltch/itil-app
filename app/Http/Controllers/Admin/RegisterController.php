@@ -44,7 +44,7 @@ class RegisterController extends Controller
 
     public function index($type)
     {
-        $users = User::where('type', $type)->get();
+        $users = User::where('type', $type)->orderBy('created_at', 'desc')->paginate(5);
 
         return view('admin.index', compact('users','type'));
     }
@@ -91,8 +91,9 @@ class RegisterController extends Controller
         }
 
         $create=User::create([
-            'name' => $request['name'],
+            'code' => 'U000'.User::select("id")->latest()->first()->id+1,
             'type' => $request['type'],
+            'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ]);

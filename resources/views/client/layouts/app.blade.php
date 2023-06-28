@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="{{ asset('css/vendors/simplebar.css')}}">
   <!-- Main styles for this application-->
   <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <!-- We use those styles to show code examples, you should remove them in your application.-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
   <link href="../css/examples.css" rel="stylesheet">
@@ -27,6 +28,59 @@
 
   <!-- Scripts -->
   <!-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    body{
+    margin-top:20px;
+    background:#FAFAFA;
+}
+.order-card {
+    color: #fff;
+}
+
+.bg-c-blue {
+    background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+
+.bg-c-green {
+    background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+
+.bg-c-yellow {
+    background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+.bg-c-pink {
+    background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+    padding: 25px;
+}
+
+.order-card i {
+    font-size: 26px;
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
+}
+  </style>
 </head>
 
 <body>
@@ -101,18 +155,15 @@
           <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
               <div class="avatar avatar-md"><img class="avatar-img" src="{{ asset('assets/img/avatars/2.jpg')}}" alt="user@email.com"></div>
             </a>
-            <div class="dropdown-menu dropdown-menu-end pt-0">
+            <div class="dropdown-menu dropdown-menu-end pt-0 text-center">
               <div class="dropdown-header bg-light py-2">
-                <div class="fw-semibold">Account</div>
-              </div><a class="dropdown-item" href="#">
-                <svg class="icon me-2">
+                <div class="fw-semibold"><svg class="icon me-2">
                   <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user')}}"></use>
-                </svg> Perfil</a><a class="dropdown-item" href="#">
-                <svg class="icon me-2">
-                  <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-settings')}}"></use>
-                </svg> Configuración</a>
+                </svg>Usuario activo</div>
+                <strong class="fw-semibold">{{auth()->user()->name}}</strong>
+              </div>
 
-                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider m-0"></div>
               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                 <svg class="icon me-2">

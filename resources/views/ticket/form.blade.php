@@ -10,7 +10,7 @@ $data=explode("/",Request::path());
             <div class="form-group">
                 {{ Form::hidden('id_client', auth()->user()->id)}}
                 {{ Form::hidden('id_purchase', $data[2])}}
-                <input type="hidden" name="state" value="0">
+                <input type="hidden" name="state" value="1">
 
 
 
@@ -23,6 +23,7 @@ $data=explode("/",Request::path());
                 {{ Form::text('client_problem', $ticket->client_problem, ['class' => 'form-control my-1' . ($errors->has('client_problem') ? ' is-invalid' : ''), 'placeholder' => 'Reclamo']) }}
                 {!! $errors->first('client_problem', '<div class="invalid-feedback">:message</div>') !!}
             </div>
+           
 
 
         </div>

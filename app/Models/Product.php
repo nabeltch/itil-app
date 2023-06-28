@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Product
  *
  * @property $id
+ * @property $code
  * @property $name
  * @property $category
  * @property $price
@@ -33,7 +34,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','category','price','image'];
+    protected $fillable = ['code','name','category','price','image'];
 
 
 
