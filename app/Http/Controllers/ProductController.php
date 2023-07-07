@@ -51,9 +51,10 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         request()->validate(Product::$rules);
+        $first_product=is_null(Product::select('id')->latest()->first()) ? 'POOO1': 'P000'.Product::select('id')->latest()->first()->id+1;
 
         $product = Product::create([
-            'code' => 'P000'.Product::select("id")->latest()->first()->id+1,
+            'code' => $first_product,
             'name' => $request['name'],
             'category' => $request['category'],
             'price' => $request['price'],
@@ -63,6 +64,8 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')
             ->with('success', 'Se registró correctamente.');
+        // $data=is_null(Product::select('id')->latest()->first()) ? 'null':'no';
+        // return 'data: '. $data;
     }
 
     /**

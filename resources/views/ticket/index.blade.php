@@ -40,13 +40,17 @@ $user=auth()->user()->type
                                     <th>Cliente</th>
                                     <th>Id_Compra</th>
                                     <th>Estado</th>
+                                    <th>Reapertura</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
-                                $data=['Publicado','Cancelado','En Proceso','Solucionado'];
-                                $style=['text-warning','text-danger','text-primary','text-success'];
+                                $data_state=['Publicado','Cancelado','En Proceso','Solucionado'];
+                                $style_state=['text-warning','text-danger','text-primary','text-success'];
+
+                                $data_reaperture=['No','Si'];
+                                $style_reaperture=['text-success','text-warning'];
                                 @endphp
                                 @foreach ($tickets as $key => $ticket)
                                 <tr>
@@ -55,15 +59,17 @@ $user=auth()->user()->type
                                     <td>{{ $ticket->created_at }}</td>
                                     <td>{{ $ticket->client->name }}</td>
                                     <td>{{ $ticket->purchase->code }}</td>
-                                    <td><strong class="{{$style[$ticket->state-1]}}">{{ $data[$ticket->state-1] }}</strong></td>
-
+                                    <td><strong class="{{$style_state[$ticket->state-1]}}">{{ $data_state[$ticket->state-1] }}</strong></td>
+                                    <td><strong class="{{$style_reaperture[$ticket->reaperture]}}">{{ $data_reaperture[$ticket->reaperture] }}</strong></td>
 
                                     <td>
 
                                         <form action="{{ route('tickets.destroy',$ticket->id) }}" method="POST">
 
                                             <a class="btn btn-sm btn-primary " href="{{ route($user.'.tickets.show',$ticket->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Ver mas') }}</a>
-
+                                            @if($ticket->state==4 && $user=='client')
+                                            <a class="btn btn-sm btn-info " href="{{ route('tickets.reaperture',$ticket->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Reaperturar') }}</a>
+                                            @endif
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>

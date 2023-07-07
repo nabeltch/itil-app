@@ -89,9 +89,9 @@ class RegisterController extends Controller
         {
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
-
+        $first_user=is_null(User::select('id')->latest()->first()) ? 'U0001': 'U000'.User::select('id')->latest()->first()->id+1;
         $create=User::create([
-            'code' => 'U000'.User::select("id")->latest()->first()->id+1,
+            'code' => $first_user,
             'type' => $request['type'],
             'name' => $request['name'],
             'email' => $request['email'],
@@ -100,6 +100,7 @@ class RegisterController extends Controller
 
         Alert::success('AGREGADO', 'Se agregó correctamente.');
         return redirect()->route('admin.users.index',$request['type']);
+
 
     }
 

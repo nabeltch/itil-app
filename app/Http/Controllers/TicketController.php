@@ -15,22 +15,22 @@ use Illuminate\Http\Request;
  */
 class TicketController extends Controller
 {
-      /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function dashboard()
     {
-        if (auth()->user()->type=="client") {
+        if (auth()->user()->type == "client") {
             $collection = collect([
                 ['total' => count(Ticket::where('id_client', auth()->user()->id)->get())],
                 ['t_slope' => count(Ticket::where([['state', 1], ['id_client', auth()->user()->id]])->get())],
                 ['t_canceled' => count(Ticket::where([['state', 2], ['id_client', auth()->user()->id]])->get())],
                 ['t_progress' => count(Ticket::where([['state', 3], ['id_client', auth()->user()->id]])->get())],
-                ['t_solved' => count(Ticket::where([['state', 4], ['id_client', auth()->user()->id]])->get())]  
+                ['t_solved' => count(Ticket::where([['state', 4], ['id_client', auth()->user()->id]])->get())]
             ]);
-        }else{
+        } else {
             $collection = collect([
                 ['total' => count(Ticket::all())],
                 ['t_slope' => count(Ticket::where('state', 1)->get())],
@@ -38,11 +38,15 @@ class TicketController extends Controller
                 ['t_progress' => count(Ticket::where('state', 3)->get())],
                 ['t_solved' => count(Ticket::where('state', 4)->get())]
             ]);
-
         }
-        $data='admin';
-        return view('dashboard', compact('collection'));
-
+        $data_indicators = self::indicators();
+        // if (count(self::indicators()) == 0) {
+        //     $data_indicators = 0;
+        // } else {
+        //     
+        // }
+        return view('dashboard', compact(['collection','data_indicators']));
+        // return dd($data_indicators);
     }
     /**
      * Display a listing of the resource.
@@ -51,16 +55,72 @@ class TicketController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->type=="client"){
-            $tickets = Ticket::where('id_client',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(5);
-        }else{
+        if (auth()->user()->type == "client") {
+            $tickets = Ticket::where('id_client', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(5);
+        } else {
             $tickets = Ticket::orderBy('created_at', 'desc')->paginate(5);
         }
-        
-
 
         return view('ticket.index', compact('tickets'));
     }
+
+    public function indicators()
+    {
+
+        $tickets = Ticket::where('state', 4)->get();
+
+        if (count($tickets)==0) {
+            return 0;
+
+        }else{
+
+            $total_tickets = count($tickets);
+            $total_time = 0;
+            $quantity_tickets_ans = 0;
+            $quantity_tickets_nr = 0;
+
+            foreach ($tickets as $ticket) {
+
+                //indicator 1
+                $created_at = new \Carbon\Carbon($ticket->created_at);
+                $start_time_support = new \Carbon\Carbon($ticket->start_time_support);
+                $total_time_ans =  $created_at->diffInMinutes($start_time_support);
+                if ($total_time_ans <= 30) {
+                    $quantity_tickets_ans++;
+                }
+
+                //indicator 2
+                $start_time_support = new \Carbon\Carbon($ticket->start_time_support);
+                $end_time_support = new \Carbon\Carbon($ticket->end_time_support);
+                $total_time += $start_time_support->diffInMinutes($end_time_support);
+
+                //indicator 3
+                if ($ticket->reaperture == 0) {
+                    $quantity_tickets_nr++;
+                }
+            }
+            return [
+                'indicator1' => [
+                    'quantity_tickets_ans' => $quantity_tickets_ans,
+                    'quantity_tickets' => $total_tickets,
+                    'result' => number_format($quantity_tickets_ans / $total_tickets * 100, 2)
+                ],
+                'indicator2' => [
+                    'total_time' => number_format($total_time, 2),
+                    'quantity_tickets' => $total_tickets,
+                    'result' => number_format($total_time / $total_tickets * 100, 2),
+                ],
+                'indicator3' => [
+                    'quantity_tickets_nr' => $quantity_tickets_nr,
+                    'quantity_tickets' => $total_tickets,
+                    'result' => number_format($quantity_tickets_nr / $total_tickets * 100, 2)
+                ]
+            ];
+        
+    
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -68,15 +128,14 @@ class TicketController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($id)
-    {   
-        $id_purchase= Ticket::where('id_purchase',$id)->get();
+    {
+        $id_purchase = Ticket::where('id_purchase', $id)->get();
         if (!empty($id_purchase[0])) {
-            return redirect()->route('client.tickets.show',$id_purchase[0]->id);
-        }else{
+            return redirect()->route('client.tickets.show', $id_purchase[0]->id);
+        } else {
             $ticket = new Ticket();
             return view('ticket.create', compact('ticket'));
         }
-        
     }
 
     /**
@@ -88,18 +147,53 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         request()->validate(Ticket::$rules);
-        $id=Ticket::select("id")->latest()->first();
+        $first_ticket=is_null(Ticket::select('id')->latest()->first()) ? 'T0001': 'T000'.Ticket::select('id')->latest()->first()->id+1;
         $ticket = Ticket::create([
-            'code' => 'T000'.Ticket::select("id")->latest()->first()->id+1,
-            'id_client'=>$request['id_client'],
-            'id_purchase'=>$request['id_purchase'],
-            'client_problem'=>$request['client_problem'],
-            'state'=>$request['state']
+            'code' =>  $first_ticket,
+            'id_client' => $request['id_client'],
+            'id_purchase' => $request['id_purchase'],
+            'client_problem' => $request['client_problem'],
+            'state' => $request['state'],
+            'reaperture' => 0
         ]);
 
         return redirect()->route('client.tickets')
             ->with('success', 'Se creó exitosamente');
     }
+
+    public function reaperture($id){
+
+        $ticket=Ticket::find($id);
+        // // request()->validate(Ticket::$rules);
+        // $current_date_time = \Carbon\Carbon::now()->toDateTimeString();
+        
+        // $support = Ticket::find($request->input('id_ticket'));
+        $ticket->id_support = null;
+        $ticket->state = 1;
+        $ticket->actions_taken = null;
+        $ticket->results = null;
+        $ticket->start_time_support = null;
+        $ticket->end_time_support = null;
+        $ticket->created_at= \Carbon\Carbon::now()->toDateTimeString();
+        $ticket->reaperture= 1;
+        // if ($support->start_time_support == "") {
+        //     $support->start_time_support = $current_date_time;
+        // }
+
+        // if ($request->input('select') == 4) {
+        //     $support->end_time_support = $current_date_time;
+        // }
+
+
+
+        $ticket->update();
+
+        return redirect()->route('client.tickets')
+            ->with('success', 'Se creó exitosamente');
+
+    }
+
+
 
     /**
      * Display the specified resource.
@@ -110,10 +204,10 @@ class TicketController extends Controller
     public function show($id)
     {
         $ticket = Ticket::find($id);
-          $product_name=Purchase::find($ticket->id_purchase)->product->name;
+        $product_name = Purchase::find($ticket->id_purchase)->product->name;
         //$product_name=Product::find($ticket->id_product)->name;
 
-        return view('ticket.show', compact(['ticket','product_name']));
+        return view('ticket.show', compact(['ticket', 'product_name']));
     }
 
     /**
@@ -151,28 +245,27 @@ class TicketController extends Controller
     {
         // request()->validate(Ticket::$rules);
         $current_date_time = \Carbon\Carbon::now()->toDateTimeString();
-        $support = Ticket::find($request->input('id_ticket'));
-        $support->state = $request->input('select');
-        $support->actions_taken = $request->input('actions');
-        $support->results = $request->input('results');
-        $support->id_support = $request->input('id_support');
-        if ($support->start_time_support==""){
-            $support->start_time_support = $current_date_time;
-
+        $ticket = Ticket::find($request->input('id_ticket'));
+        $ticket->state = $request->input('select');
+        $ticket->actions_taken = $request->input('actions');
+        $ticket->results = $request->input('results');
+        $ticket->id_support = $request->input('id_support');
+        if ($ticket->start_time_support == "") {
+            $ticket->start_time_support = $current_date_time;
         }
-       
-        if ($request->input('select')==4){
-            $support->end_time_support = $current_date_time;
-        }
-        
-       
 
-        $support->update();
+        if ($request->input('select') == 4) {
+            $ticket->end_time_support = $current_date_time;
+        }
+
+
+
+        $ticket->update();
         // return redirect()->back()->with('status','Student Updated Successfully');
 
         // $ticket->update($request->all());
 
-        return redirect()->route('support.tickets.show',$request->input('id_ticket'))
+        return redirect()->route('support.tickets.show', $request->input('id_ticket'))
             ->with('success', 'Se cambió de estado exitosamente');
     }
 

@@ -72,20 +72,7 @@
             <use xlink:href="{{ asset('assets/brand/coreui.svg#full')}}"></use>
           </svg></a>
 
-        <ul class="header-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#">
-              <svg class="icon icon-lg">
-                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-bell')}}"></use>
-              </svg></a></li>
-          <li class="nav-item"><a class="nav-link" href="#">
-              <svg class="icon icon-lg">
-                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-list-rich')}}"></use>
-              </svg></a></li>
-          <li class="nav-item"><a class="nav-link" href="#">
-              <svg class="icon icon-lg">
-                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-envelope-open')}}"></use>
-              </svg></a></li>
-        </ul>
+
         <ul class="header-nav ms-3">
           <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
               <div class="avatar avatar-md"><img class="avatar-img" src="{{ asset('assets/img/avatars/2.jpg')}}" alt="user@email.com"></div>
@@ -111,17 +98,7 @@
           </li>
         </ul>
       </div>
-      <div class="header-divider"></div>
-      <div class="container-fluid">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb my-0 ms-2">
-            <li class="breadcrumb-item">
-              <!-- if breadcrumb is single--><span>Home</span>
-            </li>
-            <li class="breadcrumb-item active"><span>Dashboard</span></li>
-          </ol>
-        </nav>
-      </div>
+   
     </header>
     <div class="container">
       @yield('content')

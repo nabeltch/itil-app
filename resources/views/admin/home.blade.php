@@ -61,6 +61,14 @@
 </div>
 
 
+<div class="row">
+    <div class="col-lg-6">
+      <h1>indicators</h1>
+        <div class="card p-3">{{$data_indicators['indicator1']['result']}}</div>
+    </div>
+</div>
+
+
 
 
 

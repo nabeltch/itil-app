@@ -48,8 +48,9 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         request()->validate(Purchase::$rules);
+        $first_purchase=is_null(Purchase::select('id')->latest()->first()) ? 'C0001': 'C000'.Purchase::select('id')->latest()->first()->id+1;
         $purchase=Purchase::create([
-            'code' => 'C000'.Purchase::select("id")->latest()->first()->id+1,
+            'code' => $first_purchase,
             'id_user' => $request['id_user'],
             'id_product' => $request['id_product'],
             'quantity' => $request['quantity'],
