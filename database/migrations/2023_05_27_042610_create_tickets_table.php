@@ -24,15 +24,15 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->nullOnDelete();
 
-            $table->string('client_problem');
+            $table->longText('client_problem');
             $table->foreignId('id_support')->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete()
                 ->nullOnDelete();
 
             $table->integer('state');
-            $table->string('actions_taken')->nullable();
-            $table->string('results')->nullable();
+            $table->longText('actions_taken')->nullable();
+            $table->longText('results')->nullable();
             
 
             $table->timestamp('start_time_support')->nullable();

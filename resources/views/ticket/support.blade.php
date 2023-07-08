@@ -69,8 +69,7 @@ $data=explode("/",Request::path());
     <div class="row mb-0">
         <div class="col-md-6 offset-md-4">
 
-            @if (auth()->user()->type==='client')
-            @else
+            @if (auth()->user()->type!=='client')
             <input class="btn btn-primary" type="submit" value="Cambiar estado">
             @endif
         </div>
@@ -81,23 +80,16 @@ $data=explode("/",Request::path());
 <script>
     user = "{{auth()->user()->type}}"
     state = "{{$data[4]}}"
-    document.querySelectorAll('.form-select option').forEach(element => {
+    states = document.querySelectorAll('.form-select option')
+    states[0].disabled = true
+    states.forEach(element => {
 
-        if (element.value <= state) {
-            element.disabled = true
-        }
 
         if (element.value == state) {
             element.selected = true
         }
 
     })
-
-
-    if (user == 'client') {
-        document.querySelector('.form-select').disabled = true
-    }
-    console.log(user)
 </script>
 
 

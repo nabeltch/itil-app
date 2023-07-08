@@ -1,7 +1,7 @@
 <?php
 return [
     'Login'=>'Iniciar sesion',
-    'Email Address'=> 'Dirección de correo electrónico',
+    'Email Address'=> 'Email',
     'Password'=>'Contraseña',
     'client'=>'cliente',
     'support'=>'soporte',

@@ -30,7 +30,15 @@ class TicketController extends Controller
                 ['t_progress' => count(Ticket::where([['state', 3], ['id_client', auth()->user()->id]])->get())],
                 ['t_solved' => count(Ticket::where([['state', 4], ['id_client', auth()->user()->id]])->get())]
             ]);
-        } else {
+        } else if(auth()->user()->type == "support") {
+            $collection = collect([
+                ['total' => count(Ticket::where('id_support', auth()->user()->id)->get())],
+                ['t_slope' => count(Ticket::where([['state', 1], ['id_support', auth()->user()->id]])->get())],
+                ['t_canceled' => count(Ticket::where([['state', 2], ['id_support', auth()->user()->id]])->get())],
+                ['t_progress' => count(Ticket::where([['state', 3], ['id_support', auth()->user()->id]])->get())],
+                ['t_solved' => count(Ticket::where([['state', 4], ['id_support', auth()->user()->id]])->get())]
+            ]);
+        }else{
             $collection = collect([
                 ['total' => count(Ticket::all())],
                 ['t_slope' => count(Ticket::where('state', 1)->get())],
@@ -57,11 +65,18 @@ class TicketController extends Controller
     {
         if (auth()->user()->type == "client") {
             $tickets = Ticket::where('id_client', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(5);
-        } else {
+            return view('ticket.index', compact('tickets'));
+        } else if(auth()->user()->type == "support") {
             $tickets = Ticket::orderBy('created_at', 'desc')->paginate(5);
+            $tickets_support = Ticket::where('id_support', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(5);
+            return view('ticket.index', compact(['tickets','tickets_support']));
+            
+        }else{
+            $tickets = Ticket::orderBy('created_at', 'desc')->paginate(5);
+            return view('ticket.index', compact('tickets'));
         }
-
-        return view('ticket.index', compact('tickets'));
+    
+        
     }
 
     public function indicators()
@@ -164,10 +179,6 @@ class TicketController extends Controller
     public function reaperture($id){
 
         $ticket=Ticket::find($id);
-        // // request()->validate(Ticket::$rules);
-        // $current_date_time = \Carbon\Carbon::now()->toDateTimeString();
-        
-        // $support = Ticket::find($request->input('id_ticket'));
         $ticket->id_support = null;
         $ticket->state = 1;
         $ticket->actions_taken = null;
@@ -176,15 +187,6 @@ class TicketController extends Controller
         $ticket->end_time_support = null;
         $ticket->created_at= \Carbon\Carbon::now()->toDateTimeString();
         $ticket->reaperture= 1;
-        // if ($support->start_time_support == "") {
-        //     $support->start_time_support = $current_date_time;
-        // }
-
-        // if ($request->input('select') == 4) {
-        //     $support->end_time_support = $current_date_time;
-        // }
-
-
 
         $ticket->update();
 

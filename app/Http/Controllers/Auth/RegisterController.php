@@ -64,7 +64,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $first_user=is_null(User::select('id')->latest()->first()) ? 'U0001': 'U000'.User::select('id')->latest()->first()->id+1;
         return User::create([
+            'code'=>$first_user,
             'name' => $data['name'],
             'type' => $data['type'],
             'email' => $data['email'],

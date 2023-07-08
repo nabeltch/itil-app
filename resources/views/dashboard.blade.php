@@ -7,7 +7,8 @@ $user=auth()->user()->type
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
-        Estados de tickets
+         <h4 class="card-title">Información general</h4>
+        
       </div>
       <div class="card-body  text-center d-flex justify-content-between">
 
@@ -15,7 +16,7 @@ $user=auth()->user()->type
           <div class="card bg-primary text-white">
             <div class="card-body">
               <h6 class="card-title">Total</h6>
-              <h5 class="card-text">{{$collection[0]['total']}} Tickets </h6>
+              <h5 class="card-text">{{$collection[0]['total']}} Tickets </h5>
             </div>
           </div>
 
@@ -77,14 +78,14 @@ $user=auth()->user()->type
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
-        Estadisticas
+        <h4 class="card-title">Estadísticas</h4>
       </div>
       <div class="card-body" id="chart"></div>
     </div>
   </div>
 </div>
 
-@if(!$data_indicators==0)
+@if(!$data_indicators==0 && $user!=='client')
 
 
 <div class="row">
@@ -103,7 +104,7 @@ $user=auth()->user()->type
             <div class="card-body">
               <h6 class="card-title">N° de incidentes cerrados que cumplen ANS: <strong>{{$data_indicators['indicator1']['quantity_tickets_ans']}} Tickets</strong></h6>
               <h6 class="card-title">Total de incidentes cerrados: <strong>{{$data_indicators['indicator1']['quantity_tickets']}} Tickets</strong></h6>
-              <h4 class="card-title"><strong>Resultado: {{$data_indicators['indicator1']['result']}} %</strong></h4>
+              <h5 class="card-title"><strong>Resultado: {{$data_indicators['indicator1']['result']}} %</strong></h5>
             </div>
           </div>
 
@@ -118,7 +119,7 @@ $user=auth()->user()->type
             <div class="card-body">
               <h6 class="card-title">Tiempo total de solución de incidentes: <strong>{{$data_indicators['indicator2']['total_time']}} Minutos</strong></h6>
               <h6 class="card-title">Total de incidentes cerrados en el mes: <strong>{{$data_indicators['indicator2']['quantity_tickets']}} Tickets</strong></h6>
-              <h4 class="card-title"><strong>Resultado: {{$data_indicators['indicator2']['result']}} Minutos</strong></h4>
+              <h5 class="card-title"><strong>Resultado: {{$data_indicators['indicator2']['result']}} Minutos</strong></h5>
             </div>
           </div>
 
@@ -133,7 +134,7 @@ $user=auth()->user()->type
             <div class="card-body">
               <h6 class="card-title">N° de incidentes cerrados sin reapertura: <strong>{{$data_indicators['indicator3']['quantity_tickets_nr']}} Tickets</strong></h6>
               <h6 class="card-title">Total de incidentes cerrados: <strong>{{$data_indicators['indicator3']['quantity_tickets']}} Tickets</strong></h6>
-              <h4 class="card-title"><strong>Resultado: {{$data_indicators['indicator3']['result']}} %</strong></h4>
+              <h5 class="card-title"><strong>Resultado: {{$data_indicators['indicator3']['result']}} %</strong></h5>
             </div>
           </div>
 
